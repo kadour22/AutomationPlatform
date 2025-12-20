@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'workflows',
+    'customers'
 ]
+
+AUTH_USER_MODEL = 'customers.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,8 +78,12 @@ WSGI_APPLICATION = 'AutomationPlatform.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'auto_db',
+        'USER':'postgres',
+        'PASSWORD':'zaza',
+        'HOST':'localhost',
+        'PORT':5432
     }
 }
 
