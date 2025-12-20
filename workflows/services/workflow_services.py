@@ -15,3 +15,8 @@ def get_workflow_by_id(workflow_id) :
     workflow = get_object_or_404(WorkFlow , id=workflow_id)
     serializer = workflow_serializer(workflow)
     return Response(serializer.data , status=200)
+
+def delete_workflow(workflow_id) :
+    workflow = get_object_or_404(WorkFlow , id=workflow_id)
+    workflow.delete()
+    return Response("workflow deleted" , status=200)
