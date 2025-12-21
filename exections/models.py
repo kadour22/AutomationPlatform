@@ -23,3 +23,25 @@ class WorkflowExecution(models.Model):
     started_at = models.DateTimeField(auto_now_add=True)
     finished_at = models.DateTimeField(null=True, blank=True)
 
+
+class StepExecution(models.Model):
+    STATUS_CHOICES = (
+        ("pending", "Pending"),
+        ("running", "Running"),
+        ("waiting", "Waiting"),
+        ("done", "Done"),
+        ("error", "Error"),
+    )
+
+    workflow_execution = models.ForeignKey(
+        WorkflowExecution,
+        related_name="steps",
+        on_delete=models.CASCADE
+    )
+    step = models.ForeignKey(
+        "workflows.WorkflowStep",
+        on_delete=models.CASCADE
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    output = models.JSONField(null=True, blank=True)
+    executed_at = models.DateTimeField(auto_now_add=True)
