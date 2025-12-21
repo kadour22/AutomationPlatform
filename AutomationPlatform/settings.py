@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'workflows',
     'customers',
+    'exections',
     'rest_framework'
 ]
 
@@ -80,7 +81,7 @@ WSGI_APPLICATION = 'AutomationPlatform.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'auto_db',
+        'NAME': 'automation',
         'USER':'postgres',
         'PASSWORD':'zaza',
         'HOST':'localhost',
