@@ -5,7 +5,7 @@ from rest_framework import serializers
 class workflow_serializer(serializers.ModelSerializer) :
     class Meta :
         model = WorkFlow
-        fields = "__all__"
+        fields = ["name","description","created_by","created_at"]
         read_only_fields = ['created_by']
 
 
