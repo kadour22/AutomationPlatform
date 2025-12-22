@@ -1,6 +1,6 @@
 from .models import WorkFlowStep , WorkFlow
 from rest_framework import serializers
-
+from workflows.validtors.step_validator import validate_step_config
 
 class workflow_serializer(serializers.ModelSerializer) :
     class Meta :
@@ -14,3 +14,11 @@ class workflow_steps_serializer(serializers.ModelSerializer) :
         model = WorkFlowStep
         fields = "__all__"
         read_only_fields = ['workflow']
+    
+    def validate(self , data) :
+        step_type = data.get('type')
+        config = data.get('config')
+
+        validate_step_config(step_type , config)
+
+        return data

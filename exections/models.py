@@ -23,7 +23,6 @@ class WorkflowExecution(models.Model):
     started_at = models.DateTimeField(auto_now_add=True)
     finished_at = models.DateTimeField(null=True, blank=True)
 
-
 class StepExecution(models.Model):
     STATUS_CHOICES = (
         ("pending", "Pending"),
