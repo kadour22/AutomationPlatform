@@ -1,5 +1,7 @@
 from django.db import models
 from customers.models import User
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 class WorkFlow(models.Model) :
     name = models.CharField(max_length=100)
@@ -27,5 +29,4 @@ class WorkFlowStep(models.Model) :
 
     def __str__(self):
         return f"{self.workflow} {self.step_type}"
-
 

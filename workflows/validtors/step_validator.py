@@ -1,4 +1,4 @@
-from django.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 
 REQUIRED_FIELDS = {
     "email" : ["to","subject"],

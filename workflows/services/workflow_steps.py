@@ -5,7 +5,7 @@ from workflows.serializers import workflow_steps_serializer
 
 def create_workflow_steps(data) :
     
-    serializer = workflow_steps_serializer(data)
+    serializer = workflow_steps_serializer(data=data)
 
     if serializer.is_valid():
         serializer.save()

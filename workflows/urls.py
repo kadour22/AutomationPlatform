@@ -9,3 +9,12 @@ urlpatterns = [
     # workflows steps urls
     path('workflow-step-create/' , views.create_workflow_steps_view.as_view())
 ] 
+
+{
+    "workflow":1 ,
+    "step_type":"email",
+    "config":{
+        "to":["user@gmail.com"],
+        "subject":"test"
+    }
+}
