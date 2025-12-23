@@ -9,7 +9,7 @@ from workflows.services.workflow_services import (
 
 from workflows.services.workflow_steps import create_workflow_steps
 
-from .permmsions import IsOwnerPermission , ManagerPermission
+from .permmsions import IsOwnerPermission , ManagerPermission , IsAdmin , IsEmployee
 
 class workflow_api_list(APIView) :
     permission_class = [IsOwnerPermission]
