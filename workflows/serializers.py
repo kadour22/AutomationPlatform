@@ -21,3 +21,5 @@ class workflow_steps_serializer(serializers.ModelSerializer) :
         validate_step_config(step_type , config)
 
         return data
+    
+    
