@@ -9,7 +9,8 @@ from workflows.services.workflow_services import (
 
 from workflows.services.workflow_steps import create_workflow_steps
 
-from .permmsions import IsOwnerPermission
+from .permmsions import IsOwnerPermission , ManagerPermission
+
 class workflow_api_list(APIView) :
     permission_class = [IsOwnerPermission]
     def get(self, request) :
@@ -26,6 +27,6 @@ class delete_workflow_view(APIView) :
         return delete_workflow(workflow_id=workflow_id)
     
 class create_workflow_steps_view(APIView) :
-    permission_class = [IsOwnerPermission]
+    permission_class = [IsOwnerPermission | ManagerPermission]
     def post(self, request) :
         return create_workflow_steps(data=request.data)
