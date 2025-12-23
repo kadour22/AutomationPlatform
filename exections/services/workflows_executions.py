@@ -1,16 +1,15 @@
-from exections.models import WorkflowExecution , StepExecution
+from django.core.mail import send_mail
+from django.conf import settings
 
-
-"""
- step 1: create workflow execution (status running) 
-        --> create step execution(status pending ==> running ) 
-        --> 
-
-"""
-
-def email_workflow_execuction(step_execution) :
-    print("email workflow")
-
+def email_workflow_execuction(to) :
+    subject = "automation test"
+    message = "welcome to our platform"
+    from_email = settings.EMAIL_HOST_USER 
+    recipient_list = [to] 
+    send_mail(
+        subject , message , from_email , recipient_list
+    )
+    print(f"email sent to {to}")
 def approval_workflow_execuction(step_execution) :
     print("approval")
 

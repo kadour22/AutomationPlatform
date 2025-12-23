@@ -10,6 +10,7 @@ class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
     serializer_class = WorkflowExecutionSerializer
 
     def post(self, request):
+        print(request.user.email)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -51,10 +52,12 @@ class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
         )
 
         step_execution.start()
-
+        print(step_execution.step.config["to"])
         # 4. Dispatch handler
         handler_map = {
-            "email": email_workflow_execuction,
+            "email": email_workflow_execuction(
+                to = step_execution.step.config["to"][0]
+            ),
             "approval": approval_workflow_execuction,
             "task": task_workflow_execuction,
             "webhook": webhook_workflow_execuction,

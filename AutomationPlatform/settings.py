@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
-
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'workflows',
+    'anymail',
     'customers',
     'exections',
     'rest_framework'
@@ -125,3 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+BREVO_API_KEY = os.get_env("BREVO_API_KEY")
+EMAIL_BACKEND = os.get_env("EMAIL_BACKEND")
+EMAIL_HOST = os.get_env("EMAIL_HOST")
+EMAIL_PORT = os.get_env("EMAIL_PORT")
+EMAIL_USE_TLS = os.get_env("EMAIL_USE_TLS")
+EMAIL_HOST_USER = os.get_env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.get_env("EMAIL_HOST_PASSWORD")
