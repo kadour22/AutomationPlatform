@@ -9,48 +9,62 @@ from .services.workflows_executions import email_workflow_execuction , approval_
 class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
     serializer_class = WorkflowExecutionSerializer
 
-    def post(self , request) :
-        serializer = self.get_serializer(data=request.data) 
-        if serializer.is_valid() :
-         
-            # WorkflowExecution creation
-            workflow     = serializer.validated_data['workflow']
-            triggered_by = serializer.validated_data['triggered_by']
-            execution = WorkflowExecution.objects.create(
-                workflow , triggered_by
-            )
-            execution.initialize_context(
-                inputs = {
-                    "user_id" : triggered_by.id if triggered_by else None ,
-                    "workflow_id" : workflow.id
-                },
-                
-                metadata = {
-                    "executed by" : triggered_by.username if triggered_by else "system" ,
-                    "workflow name" : workflow.name
-                }
-            )
-            execution.status = 'running'
-            execution.save()
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            # WorkflowStepExecutions 
-            step = StepExecution.objects.create(
-                workflow_execution=execution,
-                step = execution.workflow.steps.first(),
-                status='pending'
-            )
-            step.start()
-            step.save()        
-            handler_map = {
-                        "email": email_workflow_execuction,
-                        "approval": approval_workflow_execuction,
-                        "task": task_workflow_execuction,
-                        "webhook": webhook_workflow_execuction,
-                    }
-            handler = handler_map.get(step.step.step_type)
-            if handler:
-                handler(step)
+        workflow = serializer.validated_data["workflow"]
+        triggered_by = serializer.validated_data.get("triggered_by")
+
+        # 1. Create execution FIRST (context will be set after)
+        execution = WorkflowExecution.objects.create(
+            workflow=workflow,
+            triggered_by=triggered_by,
+            status="running",
+            context={},  # temporary, will be initialized properly
+        )
+
+        # 2. Initialize context correctly
+        execution.initialize_context(
+            inputs={
+                "user_id": triggered_by.id if triggered_by else None,
+                "workflow_id": workflow.id,
+            },
+            metadata={
+                "executed_by": triggered_by.username if triggered_by else "system",
+                "workflow_name": workflow.name,
+            }
+        )
+
+        # 3. Create first step execution
+        first_step = workflow.steps.first()
+        if not first_step:
             return Response(
+                {"detail": "Workflow has no steps."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        step_execution = StepExecution.objects.create(
+            workflow_execution=execution,
+            step=first_step,
+            status="pending"
+        )
+
+        step_execution.start()
+
+        # 4. Dispatch handler
+        handler_map = {
+            "email": email_workflow_execuction,
+            "approval": approval_workflow_execuction,
+            "task": task_workflow_execuction,
+            "webhook": webhook_workflow_execuction,
+        }
+
+        handler = handler_map.get(first_step.step_type)
+        if handler:
+            handler(step_execution)
+
+        return Response(
             WorkflowExecutionSerializer(execution).data,
             status=status.HTTP_201_CREATED
         )

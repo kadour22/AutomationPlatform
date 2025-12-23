@@ -8,14 +8,14 @@ from exections.models import WorkflowExecution , StepExecution
 
 """
 
-def email_workflow_execuction() :
-    pass
+def email_workflow_execuction(step_execution) :
+    print("email workflow")
 
-def approval_workflow_execuction() :
-    pass
+def approval_workflow_execuction(step_execution) :
+    print("approval")
 
-def webhook_workflow_execuction() :
-    pass
+def webhook_workflow_execuction(step_execution) :
+    print("webhook")
 
-def task_workflow_execuction() :
-    pass
+def task_workflow_execuction(step_execution) :
+    print("task")
