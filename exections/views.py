@@ -4,7 +4,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 from rest_framework import status
-from .services.workflows_executions import email_workflow_execuction , approval_workflow_execuction , webhook_workflow_execuction , task_workflow_execuction
+from .services.workflows_executions import(
+    email_workflow_execuction , approval_workflow_execuction ,
+    webhook_workflow_execuction , task_workflow_execuction
+)
 
 class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
     serializer_class = WorkflowExecutionSerializer
@@ -17,15 +20,13 @@ class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
         workflow = serializer.validated_data["workflow"]
         triggered_by = serializer.validated_data.get("triggered_by")
 
-        # 1. Create execution FIRST (context will be set after)
         execution = WorkflowExecution.objects.create(
             workflow=workflow,
             triggered_by=triggered_by,
             status="running",
-            context={},  # temporary, will be initialized properly
-        )
+            context={}, 
+            )
 
-        # 2. Initialize context correctly
         execution.initialize_context(
             inputs={
                 "user_id": triggered_by.id if triggered_by else None,
@@ -37,7 +38,6 @@ class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
             }
         )
 
-        # 3. Create first step execution
         first_step = workflow.steps.first()
         if not first_step:
             return Response(
@@ -52,8 +52,7 @@ class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
         )
 
         step_execution.start()
-        print(step_execution.step.config["to"])
-        # 4. Dispatch handler
+    
         handler_map = {
             "email": email_workflow_execuction(
                 to = step_execution.step.config["to"][0]
