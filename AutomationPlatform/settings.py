@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'exections',
     'corsheaders',
     'rest_framework' , 
+    'tasks',
     'drf_spectacular'
 ]
 

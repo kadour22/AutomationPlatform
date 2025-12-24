@@ -3,17 +3,23 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from workflows.models import WorkFlowStep
-from workflows.serializers import workflow_steps_serializer
+from workflows.serializers import workflow_steps_serializer ,workflow_serializer
 from workflows.services.workflow_services import (
     workflow_list , get_workflow_by_id , delete_workflow
 )
 
 from workflows.services.workflow_steps import create_workflow_steps
-
+from drf_spectacular.utils import extend_schema
 from .permmsions import IsOwnerPermission , ManagerPermission 
 
 class workflow_api_list(APIView) :
     permission_class = [IsOwnerPermission]
+    @extend_schema(
+            summary = "Lists workflows endpoint",
+            description = "return all workflows created by the owner",
+            responses = {200: workflow_serializer(many=True)},
+            tags = ["workflow"],
+    )
     def get(self, request) :
         return workflow_list(request=request)
 
