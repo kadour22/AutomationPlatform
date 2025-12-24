@@ -70,3 +70,4 @@ class WorkflowExecutionView(CreateModelMixin, GenericAPIView):
             WorkflowExecutionSerializer(execution).data,
             status=status.HTTP_201_CREATED
         )
+
