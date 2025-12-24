@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 
-def workflow_list() :
+def workflow_list(request) :
     workflows  = WorkFlow.objects.select_related("created_by").all()
     serializer = workflow_serializer(
         workflows , many=True

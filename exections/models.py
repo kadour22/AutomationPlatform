@@ -44,10 +44,6 @@ class WorkflowExecution(models.Model):
             }
         }
         self.save()
-        # return self.context
-
-    
-
 
 class StepExecution(models.Model):
     STATUS_CHOICES = (
@@ -72,6 +68,8 @@ class StepExecution(models.Model):
     executed_at = models.DateTimeField(auto_now_add=True)
 
     def start(self):
-        """Mark the step as running."""
+        """
+            Mark the step as running. ::
+        """
         self.status = "running"
         self.save(update_fields=['status'])

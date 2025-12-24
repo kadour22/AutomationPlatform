@@ -1,9 +1,11 @@
 from rest_framework.permissions import BasePermission
 
-
-def IsOwnerPermission(BasePermission) :
-    def has_objects_permission(self, request, obj, view) :
-        return request.user.role == "owner"
+class IsOwnerPermission(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return (
+            request.user.is_authenticated
+            and request.user.role == "owner"
+        )
 
 def ManagerPermission(BasePermission):
     def has_objects_permission(self, request, obj, view) :

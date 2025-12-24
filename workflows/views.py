@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from workflows.models import WorkFlowStep
 from workflows.serializers import workflow_steps_serializer
 from workflows.services.workflow_services import (
@@ -9,12 +10,12 @@ from workflows.services.workflow_services import (
 
 from workflows.services.workflow_steps import create_workflow_steps
 
-from .permmsions import IsOwnerPermission , ManagerPermission , IsAdmin , IsEmployee
+from .permmsions import IsOwnerPermission , ManagerPermission 
 
 class workflow_api_list(APIView) :
     permission_class = [IsOwnerPermission]
     def get(self, request) :
-        return workflow_list()
+        return workflow_list(request=request)
 
 class workflow_by_ID(APIView) :
     permission_class = [IsOwnerPermission]

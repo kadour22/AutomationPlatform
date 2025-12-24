@@ -2,5 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("" , views.WorkflowExecutionView.as_view())
+    path("execute-workflow/" , views.WorkflowExecutionView.as_view())
 ]
+
