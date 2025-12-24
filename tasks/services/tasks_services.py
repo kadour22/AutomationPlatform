@@ -12,10 +12,10 @@ def tasks_list_service(request) :
     )
     return Response(serializer.data , status=200)
 
-def create_task_service(data,user) :
+def create_task_service(data,author) :
     serializer = TaskSerializer(data=data)
     if serializer.is_valid() :
-        serializer.save(author=user)
+        serializer.save(author=author)
         return Response(
             serializer.data , status=200
         )
@@ -29,3 +29,5 @@ def delete_task_service(request,task_id) :
     return Response({
         "message" : f"task : {task.title} deleted "
     },status=200)
+
+{"title":"testing","content":"hello"}

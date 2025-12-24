@@ -1,15 +1,15 @@
-from rest_framework import serilizers
+from rest_framework import serializers
 from .models import Task
 from django.core.exceptions import ValidationError
 
-class TaskSerializer(serilizers.ModelSerializer) :
+class TaskSerializer(serializers.ModelSerializer) :
 
     class Meta :
         model = Task
         fields = [
             "title" , "content" , "author" , "created_at"
         ]
-        read_only_field = "author"
+        read_only_fields = ["author"]
 
     def validate(self , attrs) :
         if attrs["title"] == "" or attrs["content"] == "" :
