@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'customers',
     'exections',
     'corsheaders',
-    'rest_framework'
+    'rest_framework' , 
+    'drf_spectacular'
 ]
 
 AUTH_USER_MODEL = 'customers.User'
@@ -142,9 +143,9 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ) ,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     
 }
 SIMPLE_JWT = {
@@ -191,4 +192,12 @@ SIMPLE_JWT = {
     "CHECK_REVOKE_TOKEN": False,
     "REVOKE_TOKEN_CLAIM": "hash_password",
     "CHECK_USER_IS_ACTIVE": True,
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Automation API',
+    'DESCRIPTION': 'An automated platform tasks, mails, approvals..',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
