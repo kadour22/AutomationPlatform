@@ -12,6 +12,17 @@ def tasks_list_service(request) :
     )
     return Response(serializer.data , status=200)
 
+def create_task_service(data,user) :
+    serializer = TaskSerializer(data=data)
+    if serializer.is_valid() :
+        serializer.save(author=user)
+        return Response(
+            serializer.data , status=200
+        )
+    return Response(
+        serializer.errors , status=404
+    )
+
 def delete_task_service(request,task_id) :
     task = get_object_or_404(Task , id = task_id)
     task.delete()
