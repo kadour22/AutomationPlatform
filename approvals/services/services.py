@@ -9,3 +9,8 @@ def create_approval(data , requester):
         serializer.save(requester=requester)
         return Response(serializer.data,status=201)
     return Response(serializer.errors, status=400)
+
+def get_approvals():
+    approvals = Approval.objects.all()
+    serializer = ApprovalSerializer(approvals, many=True)
+    return Response(serializer.data, status=200)
