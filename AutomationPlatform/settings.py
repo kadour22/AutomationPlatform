@@ -27,7 +27,10 @@ SECRET_KEY = 'django-insecure-4l2ln6c3u578^r8^e&#%i#bi*ih8_v=-81klxxb$0$e3%2d6_0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "automationplatform-bf9g.onrender.com",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -88,7 +91,7 @@ WSGI_APPLICATION = 'AutomationPlatform.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv("ENGINE"),
+        'ENGINE': "django.db.backends.postgresql",
         'NAME': os.getenv("NAME"),
         'USER':'postgres',
         'PASSWORD':os.getenv("PASSWORD"),
