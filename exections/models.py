@@ -15,11 +15,14 @@ class WorkflowExecution(models.Model):
         "workflows.Workflow",
         on_delete=models.CASCADE
     )
+
+
     triggered_by = models.ForeignKey(
         "customers.User",
         null=True,
         on_delete=models.SET_NULL
     )
+    
     status   = models.CharField(max_length=20, choices=STATUS_CHOICES)
     context   = models.JSONField()
     started_at = models.DateTimeField(auto_now_add=True)
