@@ -14,3 +14,11 @@ def get_approvals():
     approvals = Approval.objects.all()
     serializer = ApprovalSerializer(approvals, many=True)
     return Response(serializer.data, status=200)
+
+def delete_approval(approval_id):
+    try:
+        approval = Approval.objects.get(id=approval_id)
+        approval.delete()
+        return Response(status=204)
+    except Approval.DoesNotExist:
+        return Response({"error": "Approval not found."}, status=404)
