@@ -8,6 +8,11 @@ from approvals.services.services import (
 class approvals_list(APIView) :
     def get(self, request) :
         return get_approvals(request=request)
+
 class approval_detail(APIView) :
     def get(self, request, approval_id) :
         return single_approval(approval_id=approval_id)
+
+class approval_delete(APIView) :
+    def delete(self, request, approval_id) :
+        return delete_approval(approval_id=approval_id)
