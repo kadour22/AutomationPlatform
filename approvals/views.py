@@ -16,3 +16,7 @@ class approval_detail(APIView) :
 class approval_delete(APIView) :
     def delete(self, request, approval_id) :
         return delete_approval(approval_id=approval_id)
+
+class create_approval_view(APIView) :
+    def post(self, request) :
+        return create_approval(data=request.data , requester=request.user)
