@@ -10,7 +10,7 @@ def create_approval(data , requester):
         return Response(serializer.data,status=201)
     return Response(serializer.errors, status=400)
 
-def get_approvals():
+def get_approvals(request):
     approvals = Approval.objects.all()
     serializer = ApprovalSerializer(approvals, many=True)
     return Response(serializer.data, status=200)
