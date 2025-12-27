@@ -1,6 +1,6 @@
 from approvals.models import Approval
 from approvals.serializers import ApprovalSerializer
-
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
 def create_approval(data , requester):
@@ -22,3 +22,8 @@ def delete_approval(approval_id):
         return Response(status=204)
     except Approval.DoesNotExist:
         return Response({"error": "Approval not found."}, status=404)
+
+def single_approval(approval_id) :
+    approval = get_object_or_404(Approval, id=approval_id)
+    serializer = ApprovalSerializer(approval)
+    return Response(serializer.data, status=200)
